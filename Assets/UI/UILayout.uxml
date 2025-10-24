@@ -1,0 +1,5 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Label text=" ❤︎3" enable-rich-text="false" name="HealthLabel" style="color: rgb(229, 229, 229); -unity-text-outline-width: 2px; -unity-font-style: bold; -unity-text-outline-color: rgb(0, 0, 0); font-size: 100px; height: 124px; width: 1020px; align-self: auto; -unity-text-align: upper-left;" />
+    <ui:Button text="Restart" name="RestartButton" style="color: rgb(0, 0, 0); align-self: center; font-size: 70px; top: 100px;" />
+    <ui:Button text="Continue" name="ResumeButton" style="color: rgb(0, 0, 0); align-self: center; font-size: 70px; justify-content: flex-start; align-content: auto; top: 300px;" />
+</ui:UXML>
