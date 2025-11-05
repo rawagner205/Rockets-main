@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Friendly
   - Fuel
+  - Collectible
   layers:
   - Default
   - TransparentFX

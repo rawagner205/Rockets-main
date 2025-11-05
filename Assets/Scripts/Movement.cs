@@ -1,9 +1,10 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class Movement : MonoBehaviour
-{   
+{
     [SerializeField] InputAction thrust;
     [SerializeField] InputAction rotation;
     [SerializeField] float thrustStrength = 100f;
@@ -16,26 +17,37 @@ public class Movement : MonoBehaviour
     [SerializeField] UIDocument uiDocument;
     Button resumeButton;
     Button restartButton;
+    Button startButton;
 
     Rigidbody rb;
     AudioSource audioSource;
 
+    //for tracking game state
     bool isPaused = false;
+    bool isStarted = false;
 
-    private void Start() 
+    private void Start()
     {
         rb = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
+
         resumeButton = uiDocument.rootVisualElement.Q<Button>("ResumeButton");
         restartButton = uiDocument.rootVisualElement.Q<Button>("RestartButton");
+        startButton = uiDocument.rootVisualElement.Q<Button>("StartButton");
 
         resumeButton.style.display = DisplayStyle.None;
-        restartButton.style.display = DisplayStyle.None;  
+        restartButton.style.display = DisplayStyle.None;
+        startButton.style.display = DisplayStyle.None;
+
+        resumeButton.clicked += Unpause;
+        restartButton.clicked += RestartGame;
+        startButton.clicked += StartGame;
+
     }
 
-    private void OnEnable() 
+    private void OnEnable()
     {
-        thrust.Enable(); 
+        thrust.Enable();
         rotation.Enable();
     }
 
@@ -44,17 +56,25 @@ public class Movement : MonoBehaviour
         ProcessThrust();
         ProcessRotation();
         CheckForPause();
+
+        //if game has been paused by user
         if (isPaused == true)
         {
+            Pause();
+        }
+        //if game has not started yet 
+        else if (isStarted == false)
+        {
+            startButton.style.display = DisplayStyle.Flex;
             Time.timeScale = 0;
-            resumeButton.style.display = DisplayStyle.Flex;
-            restartButton.style.display = DisplayStyle.Flex;
+        }
+        else if (isStarted == true)
+        {
+            StartGame();
         }
         else
         {
-            Time.timeScale = 1;
-            resumeButton.style.display = DisplayStyle.None;
-            restartButton.style.display = DisplayStyle.None;
+            Unpause();
         }
     }
 
@@ -92,11 +112,11 @@ public class Movement : MonoBehaviour
     private void ProcessRotation()
     {
         float rotationInput = rotation.ReadValue<float>();
-        if(rotationInput < 0)
+        if (rotationInput < 0)
         {
             RotateRight();
         }
-        else if(rotationInput > 0)
+        else if (rotationInput > 0)
         {
             RotateLeft();
         }
@@ -145,5 +165,38 @@ public class Movement : MonoBehaviour
         {
             isPaused = true;
         }
+    }
+
+    //restarts entire game, sending player back to first level - resets health, current level score, and total score
+    private void RestartGame()
+    {
+        SceneManager.LoadScene(0);
+        Unpause();
+    }
+
+    //stop game in entirety, bring up pause menu
+    private void Pause()
+    {
+        Time.timeScale = 0;
+        resumeButton.style.display = DisplayStyle.Flex;
+        restartButton.style.display = DisplayStyle.Flex;
+    }
+
+    //restart game from pause screen
+    private void Unpause()
+    {
+        Time.timeScale = 1;
+        resumeButton.style.display = DisplayStyle.None;
+        restartButton.style.display = DisplayStyle.None;
+        startButton.style.display = DisplayStyle.None;
+        isPaused = false;
+    }
+
+    //start game from start screen
+    private void StartGame()
+    {
+        Time.timeScale = 1;
+        startButton.style.display = DisplayStyle.None;
+        isStarted = true;
     }
 }

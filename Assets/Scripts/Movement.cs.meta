@@ -1,2 +1,16 @@
 fileFormatVersion: 2
 guid: ce6b13817411ea54895b37e45e3dca70
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - mainEngineSFX: {fileID: 8300000, guid: 0eeaffc68080d044b9456265b43179c0, type: 3}
+  - mainEngineParticles: {instanceID: 0}
+  - rightThrustParticles: {instanceID: 0}
+  - leftThrustParticles: {instanceID: 0}
+  - uiDocument: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
